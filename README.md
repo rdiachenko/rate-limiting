@@ -1,6 +1,6 @@
-# Rate Limiting
+[![ci](https://github.com/rdiachenko/rate-limiting/actions/workflows/ci.yml/badge.svg)](https://github.com/rdiachenko/rate-limiting/actions/workflows/ci.yml)
 
-## Overview
+# Rate Limiting
 
 This repository contains Java implementations of various rate limiting algorithms. Its primary purpose is to explore how these algorithms function and the different methods by which they can be implemented.
 
