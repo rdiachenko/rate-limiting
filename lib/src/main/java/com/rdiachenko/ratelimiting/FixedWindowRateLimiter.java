@@ -1,5 +1,6 @@
 package com.rdiachenko.ratelimiting;
 
+import java.time.Clock;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,15 +8,17 @@ public class FixedWindowRateLimiter {
 
     private final int maxCount;
     private final long windowLengthMillis;
+    private final Clock clock;
     private final Map<String, FixedWindow> userFixedWindow = new HashMap<>();
 
-    FixedWindowRateLimiter(int maxCount, long windowLengthMillis) {
+    FixedWindowRateLimiter(int maxCount, long windowLengthMillis, Clock clock) {
         this.maxCount = maxCount;
         this.windowLengthMillis = windowLengthMillis;
+        this.clock = clock;
     }
 
     boolean allowed(String userId) {
-        long now = System.currentTimeMillis();
+        long now = clock.millis();
         FixedWindow fixedWindow = userFixedWindow.get(userId);
 
         // If there is a new user OR it is time to start a new window,
