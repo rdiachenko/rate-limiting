@@ -6,14 +6,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-public class SlidingWindowRateLimiter {
+public class SlidingWindowLogRateLimiter {
 
   private final int maxCount;
   private final long windowLengthMillis;
   private final Clock clock;
   private final Map<String, Deque<Long>> userSlidingWindow = new HashMap<>();
 
-  SlidingWindowRateLimiter(int maxCount, long windowLengthMillis, Clock clock) {
+  SlidingWindowLogRateLimiter(int maxCount, long windowLengthMillis, Clock clock) {
     this.maxCount = maxCount;
     this.windowLengthMillis = windowLengthMillis;
     this.clock = clock;
