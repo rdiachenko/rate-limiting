@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class SlidingWindowLogRateLimiterTest {
+public class SlidingWindowRateLimiterTest {
 
   private static final String BOB = "Bob";
   private static final String ALICE = "Alice";
@@ -20,8 +20,8 @@ public class SlidingWindowLogRateLimiterTest {
     when(clock.millis()).thenReturn(0L, 999L, 1000L,
         1001L, 1002L, 1999L, 2000L);
 
-    SlidingWindowLogRateLimiter limiter
-        = new SlidingWindowLogRateLimiter(2, 1000, clock);
+    SlidingWindowRateLimiter limiter
+        = new SlidingWindowRateLimiter(2, 1000, clock);
 
     // 0 seconds passed
     assertTrue(limiter.allowed(BOB),
@@ -52,8 +52,8 @@ public class SlidingWindowLogRateLimiterTest {
     when(clock.millis()).thenReturn(0L, 999L, 1000L, 1000L, 1001L,
         2001L, 2001L, 2001L, 3002L, 3003L);
 
-    SlidingWindowLogRateLimiter limiter
-        = new SlidingWindowLogRateLimiter(1, 2000, clock);
+    SlidingWindowRateLimiter limiter
+        = new SlidingWindowRateLimiter(1, 2000, clock);
 
     // 0 seconds passed
     assertTrue(limiter.allowed(BOB),
