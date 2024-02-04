@@ -15,7 +15,7 @@ public class FixedWindowRateLimiterTest {
   private static final String ALICE = "Alice";
 
   @Test
-  void testLimiterAllowsBurstyTraffic() {
+  void allowed_burstyTraffic_acceptsAllRequestsWithinRateLimitThresholds() {
     Clock clock = mock(Clock.class);
     when(clock.millis()).thenReturn(0L, 999L, 1000L,
         1001L, 1002L, 1999L, 2002L);
@@ -47,7 +47,7 @@ public class FixedWindowRateLimiterTest {
   }
 
   @Test
-  void testLimiterForMultipleUsers() {
+  void allowed_requestsFromMultipleUsers_ensuresIndividualRateLimiters() {
     Clock clock = mock(Clock.class);
     when(clock.millis()).thenReturn(0L, 999L, 1000L, 1000L, 1001L,
         2001L, 2001L, 2001L, 3002L, 3003L);
