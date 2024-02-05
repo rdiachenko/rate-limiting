@@ -22,21 +22,20 @@ public class SlidingWindowLogRateLimiter {
   boolean allowed(String userId) {
     long now = clock.millis();
 
-    // If there is a new user, initialize an empty sliding window for them.
-    // Otherwise, get an existing window which contains timestamps of the
-    // previously made requests.
+    // Initialize an empty sliding window for new users,
+    // or retrieve the existing window.
     Deque<Long> slidingWindow = userSlidingWindow
         .computeIfAbsent(userId, k -> new LinkedList<>());
 
-    // Remove request timestamps which are outside the current sliding window.
+    // Remove timestamps outside the current sliding window.
     while (!slidingWindow.isEmpty()
         && slidingWindow.getFirst() + windowLengthMillis < now) {
       slidingWindow.removeFirst();
     }
 
-    // If the current number of requests within the window exceeds the limit,
-    // disallow this request. Otherwise, include the current request into
-    // the window and allow the request.
+    // Check if the request count within the window exceeds the limit.
+    // If so, reject the request; otherwise, add the current
+    // request's timestamp to the window and allow it.
     if (slidingWindow.size() >= maxCount) {
       return false;
     } else {
