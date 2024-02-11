@@ -67,7 +67,7 @@ public class SlidingWindowLogRateLimiterTest {
     assertTrue(limiter.allowed(ALICE),
         "Alice's request 1 at timestamp=1000 must pass");
     assertFalse(limiter.allowed(ALICE),
-        "Alice's request 2 at timestamp=1001 must pass");
+        "Alice's request 2 at timestamp=1001 must not be allowed");
 
     // 2 seconds passed
     assertFalse(limiter.allowed(ALICE),
