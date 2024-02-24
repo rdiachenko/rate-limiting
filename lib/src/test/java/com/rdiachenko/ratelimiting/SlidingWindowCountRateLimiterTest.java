@@ -3,6 +3,7 @@ package com.rdiachenko.ratelimiting;
 import org.junit.jupiter.api.Test;
 
 import java.time.Clock;
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,7 +22,7 @@ public class SlidingWindowCountRateLimiterTest {
         1001L, 1002L, 1999L, 2000L);
 
     SlidingWindowCountRateLimiter limiter
-        = new SlidingWindowCountRateLimiter(2, 1000, clock);
+        = new SlidingWindowCountRateLimiter(2, Duration.ofSeconds(1), clock);
 
     // 0 seconds passed
     assertTrue(limiter.allowed(BOB),
@@ -55,7 +56,7 @@ public class SlidingWindowCountRateLimiterTest {
         2001L, 2001L, 2001L, 3002L, 3003L);
 
     SlidingWindowCountRateLimiter limiter
-        = new SlidingWindowCountRateLimiter(1, 2000, clock);
+        = new SlidingWindowCountRateLimiter(1, Duration.ofSeconds(2), clock);
 
     // 0 seconds passed
     assertTrue(limiter.allowed(BOB),

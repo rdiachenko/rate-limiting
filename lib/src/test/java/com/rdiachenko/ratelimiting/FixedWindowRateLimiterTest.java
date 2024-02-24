@@ -3,6 +3,7 @@ package com.rdiachenko.ratelimiting;
 import org.junit.jupiter.api.Test;
 
 import java.time.Clock;
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,7 +22,7 @@ public class FixedWindowRateLimiterTest {
         1001L, 1002L, 1999L, 2002L);
 
     FixedWindowRateLimiter limiter
-        = new FixedWindowRateLimiter(2, 1000, clock);
+        = new FixedWindowRateLimiter(2, Duration.ofSeconds(1), clock);
 
     // 0 seconds passed
     assertTrue(limiter.allowed(BOB),
@@ -52,7 +53,7 @@ public class FixedWindowRateLimiterTest {
     when(clock.millis()).thenReturn(0L, 999L, 1000L, 1000L, 1001L,
         2001L, 2001L, 2001L, 3002L, 3003L);
 
-    FixedWindowRateLimiter limiter = new FixedWindowRateLimiter(1, 2000, clock);
+    FixedWindowRateLimiter limiter = new FixedWindowRateLimiter(1, Duration.ofSeconds(2), clock);
 
     // 0 seconds passed
     assertTrue(limiter.allowed(BOB),

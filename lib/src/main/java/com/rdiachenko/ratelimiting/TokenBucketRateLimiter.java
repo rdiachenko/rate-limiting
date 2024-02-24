@@ -24,7 +24,7 @@ public class TokenBucketRateLimiter {
    * @param refillStrategy  The strategy for refilling the bucket with tokens.
    */
   public TokenBucketRateLimiter(int capacity, Duration period, int tokensPerPeriod,
-                                Clock clock, RefillStrategy refillStrategy) {
+                         Clock clock, RefillStrategy refillStrategy) {
     this.capacity = capacity;
     this.period = period;
     this.tokensPerPeriod = tokensPerPeriod;
@@ -33,13 +33,13 @@ public class TokenBucketRateLimiter {
   }
 
   /**
-   * Determines if a request from the specified user ID is allowed based on the
-   * current state of their token bucket.
+   * Determines if a request from the specified user ID
+   * is allowed based on the current state of their token bucket.
    *
    * @param userId The ID of the user making the request.
    * @return true if the request is allowed, false otherwise.
    */
-  boolean allowed(String userId) {
+  public boolean allowed(String userId) {
     // Initialize an empty bucket for new users or retrieve existing one.
     TokenBucket bucket = userTokenBucket.computeIfAbsent(userId,
         k -> new TokenBucket(clock.millis(), tokensPerPeriod));
@@ -81,8 +81,9 @@ public class TokenBucketRateLimiter {
     }
 
     /**
-     * Regenerates tokens in a greedy manner. This strategy tries to add tokens to the bucket as soon
-     * as possible without waiting for the entire period to elapse. For example, a configuration of
+     * Regenerates tokens in a greedy manner. This strategy tries
+     * to add tokens to the bucket as soon as possible without waiting for
+     * the entire period to elapse. For example, a configuration of
      * "2 tokens per 1 second" would add 1 token every 500 milliseconds.
      */
     private void refillGreedy() {
@@ -95,8 +96,9 @@ public class TokenBucketRateLimiter {
     }
 
     /**
-     * Regenerates tokens at fixed intervals. Unlike the greedy strategy, this method waits for the
-     * entire period to elapse before regenerating the full amount of tokens designated for that period.
+     * Regenerates tokens at fixed intervals. Unlike the greedy strategy,
+     * this method waits for the entire period to elapse before
+     * regenerating the full amount of tokens designated for that period.
      */
     private void refillIntervally() {
       long now = clock.millis();
