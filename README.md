@@ -35,7 +35,18 @@ The [Sliding Window Rate Limiting](https://www.rdiachenko.com/posts/arch/rate-li
 
 ## Token Bucket Rate Limiting
 
-WIP
+Implementations:
+- Basic: [`TokenBucketRateLimiter`](lib/src/main/java/com/rdiachenko/ratelimiting/TokenBucketRateLimiter.java).
+- Thread safe: WIP.
+
+The [Token Bucket Rate Limiting](https://www.rdiachenko.com/posts/arch/rate-limiting/token-bucket-algorithm/) algorithm is initialized with the following key properties:
+- The maximum number of tokens that the bucket can hold.
+- The period over which tokens are replenished within the bucket.
+- The number of tokens added to the bucket at each period.
+
+As shown in the flow diagram below, an attempt to refill the token bucket is made whenever a request arrives. The number of new tokens added depends on the time elapsed since the last refill. If the bucket contains a sufficient number of tokens, the necessary amount is deducted, and the request is processed successfully, otherwise, it is either rejected or postponed until enough tokens become available.
+
+![Flow Diagram for Token Bucket Algorithm](docs/token-bucket-algorithm-flow-diagram.png "Flow Diagram for Token Bucket Algorithm")
 
 ## Leaky Bucket Rate Limiting
 
