@@ -18,7 +18,11 @@ Implementations:
 - Basic: [`FixedWindowRateLimiter`](lib/src/main/java/com/rdiachenko/ratelimiting/FixedWindowRateLimiter.java).
 - Thread safe: WIP.
 
-The [Fixed Window Rate Limiting](https://www.rdiachenko.com/posts/arch/rate-limiting/fixed-window-algorithm/) algorithm is initialized with two key properties: the maximum number of requests allowed per window and the length of each window. As illustrated in the flow diagram below, a request is successfully processed if the current request count within the ongoing window does not exceed the maximum limit. If the limit is exceeded, the request is either rejected or delayed. A new window is initiated, and the request count is reset, when the request's timestamp falls outside the current window.
+The [Fixed Window Rate Limiting](https://www.rdiachenko.com/posts/arch/rate-limiting/fixed-window-algorithm/) algorithm is initialized with two key properties:
+- The maximum number of requests allowed per window.
+- The length of each window.
+
+As illustrated in the flow diagram below, a request is successfully processed if the current request count within the ongoing window does not exceed the maximum limit. If the limit is exceeded, the request is either rejected or delayed. A new window is initiated, and the request count is reset, when the request's timestamp falls outside the current window.
 
 ![Flow Diagram for Fixed Window Algorithm](docs/fixed-window-algorithm-flow-diagram.png "Flow Diagram for Fixed Window Algorithm")
 
@@ -29,7 +33,11 @@ Implementations:
 - Memory-optimized: [`SlidingWindowCountRateLimiter`](lib/src/main/java/com/rdiachenko/ratelimiting/SlidingWindowCountRateLimiter.java).
 - Thread safe: WIP.
 
-The [Sliding Window Rate Limiting](https://www.rdiachenko.com/posts/arch/rate-limiting/sliding-window-algorithm/) algorithm is initialized with two key properties: the maximum number of requests allowed per window and the window’s duration. As shown in the flow diagram below, a new sliding window is created once for each new user. This window tracks the timestamps of the user’s requests. Upon the arrival of a new request, any old timestamps outside the sliding window are discarded to accommodate new ones. If the number of requests within the window exceeds the set limit, the incoming request is either rejected or delayed. Otherwise, it is added to the window and processed successfully.
+The [Sliding Window Rate Limiting](https://www.rdiachenko.com/posts/arch/rate-limiting/sliding-window-algorithm/) algorithm is initialized with two key properties:
+- The maximum number of requests allowed per window.
+- The window’s duration.
+
+As shown in the flow diagram below, a new sliding window is created once for each new user. This window tracks the timestamps of the user’s requests. Upon the arrival of a new request, any old timestamps outside the sliding window are discarded to accommodate new ones. If the number of requests within the window exceeds the set limit, the incoming request is either rejected or delayed. Otherwise, it is added to the window and processed successfully.
 
 ![Flow Diagram for Sliding Window Algorithm](docs/sliding-window-algorithm-flow-diagram.png "Flow Diagram for Sliding Window Algorithm")
 
@@ -50,7 +58,18 @@ As shown in the flow diagram below, an attempt to refill the token bucket is mad
 
 ## Leaky Bucket Rate Limiting
 
-WIP
+Implementations:
+- Basic: [`LeakyBucketRateLimiter`](lib/src/main/java/com/rdiachenko/ratelimiting/LeakyBucketRateLimiter.java).
+- Thread safe: WIP.
+
+The [Leaky Bucket Rate Limiting](https://www.rdiachenko.com/posts/arch/rate-limiting/leaky-bucket-algorithm/) algorithm is initialized with the following key properties:
+- The maximum number of requests a user can make within a specified period before being limited.
+- The time period during which requests are evaluated for limiting.
+- The number of requests permitted to leak out (be processed) per period.
+
+As shown in the flow diagram below, each incoming request triggers an attempt to leak the bucket, with the number of leaks varying based on the time elapsed since the last leak. If the bucket has enough capacity for the incoming request, the water level in the bucket rises, and the request is processed successfully. Otherwise, the request is either rejected or delayed until enough leakage occurs to lower the water level sufficiently.
+
+![Flow Diagram for Leaky Bucket Algorithm](docs/leaky-bucket-algorithm-flow-diagram.png "Flow Diagram for Leaky Bucket Algorithm")
 
 ## Adaptive Rate Limiting
 
